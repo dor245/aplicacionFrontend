@@ -69,8 +69,8 @@
     }
 
     .inicio::after,
-    .articulos::after,
-    .clientes::after {
+    .equipos::after,
+    .jugadores::after {
       display: inline-block;
       padding-left: 10px;
     }
@@ -78,11 +78,11 @@
     .inicio::after {
       content: "Inicio";
     }
-    .articulos::after {
-      content: "Artículos";
+    .equipos::after {
+      content: "Equipos";
     }
-    .clientes::after {
-      content: "Clientes";
+    .jugadores::after {
+      content: "Jugadores";
     }
   }
   /* PC */
@@ -105,17 +105,17 @@
   <ul class="menu">
     <li class="logo">
       <Link to="/">
-        <span class="inicio">🛒</span>
+        <span class="inicio">🏆</span>
       </Link>
     </li>
     <li class="item active">
-      <Link to="/articulos">
-        <span class="articulos">🎁</span>
+      <Link to="/equipos">
+        <span class="equipos">⚽</span>
       </Link>
     </li>
     <li class="item active">
-      <Link to="/clientes">
-        <span class="clientes">👥</span>
+      <Link to="/jugadores">
+        <span class="jugadores">👥</span>
       </Link>
     </li>
   </ul>
