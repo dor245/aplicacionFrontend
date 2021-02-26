@@ -54,17 +54,12 @@
   }
 </style>
 
-<h1>Tienda Frontend</h1>
-<p>
-  <small>
-    <b>Progressive Web App (PWA)</b>
-  </small>
-</p>
+<h1>FIFA Frontend</h1>
 <p>
   <small>
     Backend en
-    <a href="https://tiendabackend.herokuapp.com">
-      https://tiendabackend.herokuapp.com
+    <a href="https://fifabackend.herokuapp.com/">
+      https://fifabackend.herokuapp.com/
     </a>
   </small>
 </p>
@@ -73,25 +68,25 @@
 <div class="bloque">
   <Link to="/">
     <div class="resumen">
-      <span class="opcion">🛒 Inicio</span>
+      <span class="opcion">🏆 Inicio</span>
       <span class="descripcion">Esta página de información.</span>
     </div>
   </Link>
 
-  <Link to="/articulos">
+  <Link to="/equipos">
     <div class="resumen">
-      <span class="opcion">🎁 Artículos</span>
+      <span class="opcion">⚽ Equipos</span>
       <span class="descripcion">
-        Operaciones CRUD de artículos en una BD.
+        Operaciones CRUD de equipos en una BD.
       </span>
     </div>
   </Link>
 
-  <Link to="/clientes">
+  <Link to="/jugadores">
     <div class="resumen">
-      <span class="opcion">👥 Clientes</span>
+      <span class="opcion">👥 Jugadores</span>
       <span class="descripcion">
-        Operaciones CRUD de clientes en una BD.
+        Operaciones CRUD de jugadores en una BD.
       </span>
     </div>
   </Link>
@@ -101,8 +96,8 @@
   <small>
     <b>
       Código fuente en
-      <a href="https://github.com/jamj2000/tiendafrontend">
-        https://github.com/jamj2000/tiendafrontend
+      <a href="https://github.com/dor245/aplicacionFrontend.git">
+        https://github.com/dor245/aplicacionFrontend.git
       </a>
     </b>
   </small>
