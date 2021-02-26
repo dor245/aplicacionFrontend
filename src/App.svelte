@@ -6,7 +6,7 @@
   
   const URL = {
     equipos :  "https://fifabackend.herokuapp.com/api/equipos/",
-    jugadores :   "https://tiendabackend.herokuapp.com/api/jugadores/"
+    jugadores :   "https://fifabackend.herokuapp.com/api/jugadores/"
   };
 
   setContext("URL", URL);
