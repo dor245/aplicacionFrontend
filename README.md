@@ -6,7 +6,7 @@
 >
 > - Mucho del código que aparece en este minitutorial está simplificado con fines didácticos.
 > - Para ver todo el código, revisar el código fuente de este repositorio.
-> - **La parte backend de esta aplicación puede verse en [tiendabackend](https://github.com/jamj2000/tiendabackend)**
+> - **La parte backend de esta aplicación puede verse en [fifabackend](https://github.com/dor245/aplicacionbackend)**
 
 
 ## Introducción
@@ -40,7 +40,7 @@ En cuanto al **frontend**, tenemos a **Angular**, **React** y **Vue** como las b
 
 El desarrollo de frontend está muy publicitado y la necesidad de dicho tipo de desarrolladores es manifiesta. Independientemente de framework usado, parece haber una convergencia y acuerdo entre ellos: **todos realizadan desarrollo por componentes web**.
 
-Un **componente web** es una **parte de una aplicación web que encapsula código HTML, CSS y JavaScript**, de forma que no puede ser afectado por el código de la página que lo incluye, salvo que usemos los mecanismos establecidos a tal efecto. Por tanto permiten la reutilización y encapsulación de código cliente.
+Un **componente web** es una **parte de una aplicación web que encapsula código HTML, CSS y JavaScript**, de forma que no puede ser afectado por el código de la página que lo incluye, salvo que usemos los mecanismos establecidos a tal efecto. Por tanto permiten la reutilización y encapsulación de código jugador.
 
 Svelte es un **compilador** (también puede calificarse como framework), que toma muchas ideas prestadas de los frameworks anteriores, sobre todo de React. Sin embargo hay una característica que lo diferencia de los anteriores: 
 
@@ -355,12 +355,12 @@ Crearemos dos componentes llamados `Nav.svelte` y `Contenido.svelte`. Debe estar
   <!-- Se eliminan etiquetas html para resaltar lo esencial -->
   <!-- Consulta el código fuente. -->       
   <Link to="/">Inicio</Link>
-  <Link to="/articulos">Artículos</Link>
-  <Link to="/clientes">Clientes</Link>
+  <Link to="/equipos">Equipos</Link>
+  <Link to="/jugadores">Jugadores</Link>
 </nav>
 ```
 
-El componente `Nav` será la barra de navegación (`nav`), con los enlaces a las rutas del lado cliente. Para los enlaces hacemos uso del componente `Link` del paquete `svelte-routing`.
+El componente `Nav` será la barra de navegación (`nav`), con los enlaces a las rutas del lado jugador. Para los enlaces hacemos uso del componente `Link` del paquete `svelte-routing`.
 
 **`Contenido.svelte`**
 
@@ -368,8 +368,8 @@ El componente `Nav` será la barra de navegación (`nav`), con los enlaces a las
 <script>
   import { Route } from "svelte-routing";
   import Inicio from "./Inicio.svelte";
-  import Articulos from "./Articulos.svelte";
-  import Clientes from "./Clientes.svelte";
+  import Equipos from "./Equipos.svelte";
+  import Jugadores from "./Jugadores.svelte";
 </script>
 
 <style>
@@ -381,8 +381,8 @@ El componente `Nav` será la barra de navegación (`nav`), con los enlaces a las
   <!-- Se eliminan etiquetas html para resaltar lo esencial -->
   <!-- Consulta el código fuente. --> 
   <Route path="/" component={Inicio} />
-  <Route path="/articulos" component={Articulos} />
-  <Route path="/clientes" component={Clientes} />
+  <Route path="/equipos" component={Equipos} />
+  <Route path="/jugadores" component={Jugadores} />
 </main>
 ```
 
@@ -393,8 +393,8 @@ El componente `Contenido` será la sección principal (`main`), con las rutas y 
 Dentro del componente anterior `Contenido` podrán renderizarse distintos componentes, dependiendo del `Link` que pulsemos en la barra de navegación. Los componentes que podrán aparecer en `Contenido` son:
 
 - **Inicio**
-- **Artículos**
-- **Clientes**
+- **Equipos**
+- **Jugadores**
 
 **`Inicio.svelte`**
 
@@ -404,7 +404,7 @@ Dentro del componente anterior `Contenido` podrán renderizarse distintos compon
   /* Consultar el código fuente */
 </style>
 
-<h1>Tienda PWA</h1>
+<h1>FIFA PWA</h1>
   <!-- Se eliminan etiquetas html para resaltar lo esencial -->
   <!-- Consulta el código fuente. --> 
 ```
@@ -412,9 +412,9 @@ Dentro del componente anterior `Contenido` podrán renderizarse distintos compon
 Este componente mostrará información acerca de la aplicación. Sólo posee código HTML y CSS. No necesita solicitar datos al servidor. Por tanto su carga es inmediata, y por este motivo lo mostraremos nada más iniciarse la aplicación. Ello permite una carga inicial de la aplicación instantánea.
 
 
-**`Articulos.svelte`**
+**`Equipos.svelte`**
 
-![Articulos](articulos.png)
+![Equipos](equipos.png)
 
  ```html
  <script>
@@ -422,16 +422,16 @@ Este componente mostrará información acerca de la aplicación. Sólo posee có
   import { jsonData }            from "./store.js";
 
   import Buscar                  from "./Buscar.svelte";
-  import Articulo                from "./Articulo.svelte";
+  import Equipo                from "./Equipo.svelte";
   import Boton                   from "./Boton.svelte";
 
   const URL = getContext("URL");
 
   let busqueda = "";
-  let articulo = {};
+  let equipo = {};
 
   onMount(async () => {
-    const response = await fetch(URL.articulos);
+    const response = await fetch(URL.equipos);
     const data = await response.json();
     $jsonData = data;
   });
@@ -453,34 +453,34 @@ Este componente mostrará información acerca de la aplicación. Sólo posee có
   }
 </style>
 
-<h1>ARTÍCULOS</h1>
+<h1>EQUIPOS</h1>
 <Buscar bind:busqueda />
 
 <div class="container">
-  <Articulo bind:articulo>
+  <Equipo bind:equipo>
     <div style="text-align: right">
-      <Boton documento={articulo} tipo="insertar" coleccion="articulos" />
+      <Boton documento={equipo} tipo="insertar" coleccion="equipos" />
     </div>
-  </Articulo>
+  </Equipo>
 </div>
 
 <div class="container">
-  {#each datos as articulo}
-    <Articulo {articulo}>
+  {#each datos as equipo}
+    <Equipo {equipo}>
       <div style="text-align: right">
-        <Boton documento={articulo} tipo="modificar" coleccion="articulos" />
-        <Boton documento={articulo} tipo="eliminar"  coleccion="articulos" />
+        <Boton documento={equipo} tipo="modificar" coleccion="equipos" />
+        <Boton documento={equipo} tipo="eliminar"  coleccion="equipos" />
       </div>
-    </Articulo>
+    </Equipo>
   {/each}
 </div>
 ```
 
 
 
-**`Clientes.svelte`**
+**`Jugadores.svelte`**
 
-![Clientes](clientes.png)
+![Jugadores](jugadores.png)
 
 ```html
 <script>
@@ -488,16 +488,16 @@ Este componente mostrará información acerca de la aplicación. Sólo posee có
   import { jsonData }            from "./store.js";
 
   import Buscar                  from "./Buscar.svelte";
-  import Cliente                 from "./Cliente.svelte";
+  import Jugador                 from "./Jugador.svelte";
   import Boton                   from "./Boton.svelte";
 
   const URL = getContext("URL");
 
   let busqueda = "";
-  let cliente = {};
+  let jugador = {};
 
   onMount(async () => {
-    const response = await fetch(URL.clientes);
+    const response = await fetch(URL.jugadores);
     const data = await response.json();
     $jsonData = data;
   });
@@ -519,25 +519,25 @@ Este componente mostrará información acerca de la aplicación. Sólo posee có
   }
 </style>
 
-<h1>CLIENTES</h1>
+<h1>JUGADORES</h1>
 <Buscar bind:busqueda />
 
 <div class="container">
-  <Cliente bind:cliente>
+  <Jugador bind:jugador>
     <div style="text-align: right">
-      <Boton documento={cliente} tipo="insertar" coleccion="clientes" />
+      <Boton documento={jugador} tipo="insertar" coleccion="jugadores" />
     </div>
-  </Cliente>
+  </Jugador>
 </div>
 
 <div class="container">
-  {#each datos as cliente}
-    <Cliente {cliente}>
+  {#each datos as jugador}
+    <Jugador {jugador}>
       <div style="text-align: right">
-        <Boton documento={cliente} tipo="modificar" coleccion="clientes" />
-        <Boton documento={cliente} tipo="eliminar" coleccion="clientes" />
+        <Boton documento={jugador} tipo="modificar" coleccion="jugadores" />
+        <Boton documento={jugador} tipo="eliminar" coleccion="jugadores" />
       </div>
-    </Cliente>
+    </Jugador>
   {/each}
 </div>
 ```
@@ -546,11 +546,11 @@ Este componente mostrará información acerca de la aplicación. Sólo posee có
 
 ## Otros componentes
 
-**`Articulo.svelte`**
+**`Equipo.svelte`**
 
 ```html
 <script>
-  export let articulo = {};
+  export let equipo = {};
 </script>
 
 <style>
@@ -559,24 +559,24 @@ Este componente mostrará información acerca de la aplicación. Sólo posee có
 </style>
 
 <div class="card">
-  <input bind:value={articulo.nombre} class="title" />
+  <input bind:value={equipo.nombre} class="title" />
   <input
     type="number"
     min="0"
     max="9999.99"
     step=".01"
-    bind:value={articulo.precio} />  €
+    bind:value={equipo.precio} />  €
   <slot />
 </div>
 ```
 
 
 
-**`Cliente.svelte`**
+**`Jugador.svelte`**
 
 ```html
 <script>
-  export let cliente = {};
+  export let jugador = {};
 </script>
 
 <style>
@@ -585,8 +585,8 @@ Este componente mostrará información acerca de la aplicación. Sólo posee có
 </style>
 
 <div class="card">
-  <input bind:value={cliente.nombre} class="title" />
-  <input bind:value={cliente.apellidos} class="title" />
+  <input bind:value={jugador.nombre} class="title" />
+  <input bind:value={jugador.apellidos} class="title" />
   <slot />
 </div>
 ```
@@ -603,7 +603,7 @@ Este componente mostrará información acerca de la aplicación. Sólo posee có
   import { jsonData }            from "./store.js";
 
   export let tipo = "insertar";        // insertar, modificar, eliminar
-  export let coleccion = "articulos";  // articulos, clientes
+  export let coleccion = "equipos";  // equipos, jugadores
   export let documento = {};
   
  
@@ -631,8 +631,8 @@ Este componente mostrará información acerca de la aplicación. Sólo posee có
     }
 
     switch (coleccion) {
-      case "articulos": url=URL.articulos; break;
-      case "clientes": url=URL.clientes; break;
+      case "equipos": url=URL.equipos; break;
+      case "jugadores": url=URL.jugadores; break;
       default:
     }
   });
@@ -702,7 +702,7 @@ Existen 3 mecanismos:
 
 #### Ejemplo
 
-**`Articulos.svelte`**
+**`Equipos.svelte`**
 ```html
 <script>
     let texto = "camisa";
@@ -724,11 +724,11 @@ Existen 3 mecanismos:
 </label>
 ```
 
-Desde el componente padre `Articulos` pasamos el valor `camisa` a la propiedad `busqueda` del componente `Buscar`.
+Desde el componente padre `Equipos` pasamos el valor `camisa` a la propiedad `busqueda` del componente `Buscar`.
 
 Por defecto, el sentido de la comunicación es Padre->Hijo. 
 
-Si deseamos que el hijo (`Buscar`) pueda pasar información al padre (`Articulos`) haremos uso de la directiva **`bind`** en el componente padre, que quedaría así:
+Si deseamos que el hijo (`Buscar`) pueda pasar información al padre (`Equipos`) haremos uso de la directiva **`bind`** en el componente padre, que quedaría así:
 
 ```html
 <script>
@@ -738,7 +738,7 @@ Si deseamos que el hijo (`Buscar`) pueda pasar información al padre (`Articulos
 <Buscar bind:busqueda={texto} />
 ```
 
-El valor de la propiedad `busqueda`, que será modificada desde el componente `Buscar`, "subirá" hasta la variable `texto` del componente `Articulos`.
+El valor de la propiedad `busqueda`, que será modificada desde el componente `Buscar`, "subirá" hasta la variable `texto` del componente `Equipos`.
 
 
 
@@ -757,9 +757,9 @@ El valor de la propiedad `busqueda`, que será modificada desde el componente `B
 <script>
   import { setContext } from "svelte";
 	
-  const urlArticulos = "https://tiendabackend.herokuapp.com/api/articulos/";
+  const urlEquipos = "https://fifabackend.herokuapp.com/api/equipos";
 
-  setContext("urlArticulos", urlArticulos);
+  setContext("urlEquipos", urlEquipos);
 </script>	
 ```
 
@@ -769,10 +769,10 @@ El valor de la propiedad `busqueda`, que será modificada desde el componente `B
 <script>
   import { getContext } from "svelte";
 	
-  const urlArticulos = getContext("urlArticulos");
+  const urlEquipos = getContext("urlEquipos");
 	
   function obtener() {
-      fetch(urlArticulos, { method: "GET" })
+      fetch(urlEquipos, { method: "GET" })
       .then(res => res.json())
       .then(data => {  /* código para éxito */ })
       .catch(err => {  /* código para error */ });
@@ -800,21 +800,21 @@ export const jsonData = writable([]);
 Declaramos en `store.js` un array vacío, que contendrá datos en formato JSON.
 
 
-**`Articulos.svelte`**
+**`Equipos.svelte`**
 
 ```html
 <script>
  import { jsonData }   from "./store.js";
 	
  onMount(async () => {
-    const response = await fetch( urlArticulos );
+    const response = await fetch( urlEquipos );
     const data = await response.json();
     $jsonData = data;
   });
 </script>	
 ```
 
-En el componente `Articulos.svelte` hacemos una petición **fetch** al servidor y guardamos los datos en formato JSON en la variable jsonData del almacén. 
+En el componente `Equipos.svelte` hacemos una petición **fetch** al servidor y guardamos los datos en formato JSON en la variable jsonData del almacén. 
 
 **Nota:** Observa que para referirnos a la variable del almacén lo hacemos como **$jsonData**.
 
@@ -827,7 +827,7 @@ En el componente `Articulos.svelte` hacemos una petición **fetch** al servidor 
   export let documento = {};
 	
   function insertar() {
-      fetch(urlArticulos, {
+      fetch(urlEquipos, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(documento)
@@ -926,165 +926,3 @@ surge  public  my-project.surge.sh
 ```
 
 > NOTA: Sustituye *my-project* por el nombre de tu proyecto.
-
-
-## Progressive Web Application
-
-**Esta es una aplicación web progresiva (PWA)**.
-
-La tecnología PWA es relativamente nueva, iniciandose en el año 2015 bajo el auspicio de **Google**.
-
-Dicha tecnología pretende, mediante la aplicación de pequeñas adaptaciones, usar las **tecnologías web (HTML + CSS + Javascript)** para el **desarrollo de aplicaciones de escritorio y móviles**.
-
-Como el lector entendido en el asunto comprenderá rápidamente, las implicaciones de tal tecnología son enormes:
-
-- **Desarrollo para web, para escritorio y para móvil. Todo en uno.**
-- **Simplificación del desarrollo**. 
-  - "No es necesario" aprender lenguajes como Java o Swift.
-  - "No es necesario" desarrollar de forma nativa (SDKs para Android e iOS).
-  - "No es necesario" desarrollar de forma híbrida (Frameworks Cordova, React Native, Angular Ionic. Electron para el escritorio)
-- **Uso de Web APIs**, las cuales [son bastantes, muchas de ellas aún en desarrollo](https://developer.mozilla.org/en-US/docs/Web/API): fetch, websockets, geolocalización, audio, speech, ... 
- 
-
-**Requisitos para considerar progresiva a una aplicación web**
-
-Una PWA debe cumplir, en esencia, 2 requisitos:
-
-- Debe servirse desde un servidor **HTTPS**. Excepción: `localhost`.
-- Debe disponer de un archivo **manifest.json** o similar con metadata de la applicación.
-- Debe tener capacidad de funcionar **offline**. Para ello es necesario disponer de un *Service Worker*.
-
-
-Los archivos necesarios para hacer que una aplicación web sea progresiva son:
-
-- `public/manifest.json` 
-- `public/images/icons/*`  
-- `public/service-worker.js`   
-
-Tanto el archivo `manifest.json` como la carpeta `images` y todos sus iconos, podemos generarlos de manera sencilla con [Web App Manifest Generator](https://app-manifest.firebaseapp.com/).
-
-El archivo `service-worker.js` se encarga de funcionar como intermediario entre nuestro frontend y el backend, y tiene la siguiente apariencia:
-
-```javascript
-//------  Este código está simplificado para resaltar la estructura
-//------  Para ver todo el código consulta el archivo correspondiente
-const CACHE_NAME = 'tiendafrontend-v1';
-
-// Archivos necesarios para el funcionamiento offline
-const CACHE_ASSETS = [
-  '/',
-  '/index.html',
-  '/offline.html',
-  '/favicon.png'
-];
-
-// INSTALL
-// Realizamos el cacheo de la APP SHELL
-self.addEventListener('install', funcionDeInstalacion);
-
-
-// ACTIVATE
-// Eliminamos cachés antiguas.
-self.addEventListener('activate', funcionDeActivacion);
-
-
-// FETCH
-// Hacemos peticiones a recursos.
-self.addEventListener('fetch', funcionDeFetch);
-
-
-// PUSH
-self.addEventListener('push', funcionDePush);
-```
-
-El código fuente completo puede verse en [public/service-worker.js](./public/service-worker.js)
-
-Además de todo lo anterior, deberemos modificar el archivo **`index.html`** para que aparezcan las siguientes líneas:
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <!-- Se eliminan etiquetas html para resaltar lo esencial -->
-  <!-- Consulta el código fuente. --> 
-
-	<link rel="icon" type="image/png" href="/favicon.png">
-  
-	<!-- PWA: Para habilitar Progressive Web Application -->
-	<link rel="manifest" href="manifest.json">  <!--                  IMPORTANTE -->
-  
-	<!-- PWA: Añadir a pantalla de inicio para Safari en iOS -->
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	<meta name="apple-mobile-web-app-title" content="Tienda">
-	<link rel="apple-touch-icon" sizes="152x152" href="/images/icons/icon-152x152.png">
-	<meta name="msapplication-TileImage" content="/images/icons/icon-144x144.png">
-	<meta name="msapplication-TileColor" content="#fdebc9">
-  
-  <!-- Chrome, Firefox OS and Opera -->
-  <meta name="theme-color" content="#fdebc9">
-
-  <!-- Se eliminan etiquetas html para resaltar lo esencial -->
-  <!-- Consulta el código fuente. --> 
-</head>
-
-<body>
-	<noscript>
-		<p> Este sitio necesita Javascript para funcionar. </p>
-	</noscript>
-	<script>
-		// Si está soportado serviceWorker por el navegador
-		if ('serviceWorker' in navigator) {
-		  window.addEventListener('load', () => {
-			navigator.serviceWorker
-			  .register('./service-worker.js')
-			  .then(reg => console.log('[Service Worker] * Registrado.'))
-			  .catch(err => console.log(`[Service Worker] * Error: ${err}`));
-		  });
-		}
-	  </script>
-	
-	  <script src="service-worker.js"></script> <!-- Gestión de eventos del ServiceWorker -->
-</body>
-</html>
-```
-
-Lo que hacemos es **añadir un enlace al archivo `manifest.json`** e indicar los iconos y colores que usaremos.
-
-Además en el `body` de la página, registramos el `service-worker.js` y lo cargamos.
-
-El código fuente completo puede verse en [public/index.html](./public/index.html)
-
-Por último, es recomendable tener un archivo llamado *`offline.html`* o similar, que mostraremos cuando no haya conexión. 
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-<head>
-</head>
-  <!-- Se eliminan etiquetas html para resaltar lo esencial -->
-  <!-- Consulta el código fuente. --> 
-<body>
-    Estamos sin conexión
-    
-    <script>
-        // Este código detecta cuando volvemos a tener conexión
-        // y en ese caso se carga automáticamente la página principal.
-        // El usuario no necesita refrescar la página.
-        window.addEventListener("online", () => (window.location.href = "/"));
-    </script>
-</body>
-</html>
-```
-
-## Auditoría de la aplicación
-
-Podemos realizar una auditoría de la aplicación, haciendo uso de la extensión **Lighthouse** de Chrome. Para instalar dicha extensión en el navegador chrome escribimos la URL chrome://extensions/.
-
-Si pulsamos la tecla `F12` para mostrar las `Dev Tools` podremos ver una pestaña con el nombre `Audits`. Desde ahí realizaremos la auditoría.
-
-
-![ScreenCast](screencast.gif)
-
-
-> NOTA: Algunas extensiones activas en el navegador pueden ralentizar las pruebas y provocar que el *score* obtenido sea menor. Para evitar esto podemos lanzar la auditoría desde el `modo incógnito` del navegador o, una solución más drástica, desactivar las extensiones.
